@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link href="css/style.css" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: lightpink;
+    }
+
+    .music-box {
+      position: relative;
+      top: -150px;
+    }
+
+    .ballerina {
+      position: absolute;
+      filter: drop-shadow(1px 0 rgba(0, 0, 0, .3));
+      z-index: 2;
+      left: -40px;
+      top: 20px;
+      animation: rotate 10s linear infinite reverse;
+    }
+
+    @keyframes rotate {
+      to {
+        transform: rotateY(360deg);
+      }
+    }
+
+    input#music {
+      display: none;
+    }
+
+    #music:checked~.box-inside {
+      transform: translateY(-115px);
+    }
+
+    .box-inside {
+      position: absolute;
+      transition: .5s;
+      top: 110px;
+      left: -10px;
+    }
+
+    .inner {
+      background-color: #1a232a;
+      position: absolute;
+      width: 200px;
+      height: 40px;
+      border-radius: 20px 20px 0 0;
+      top: 158px;
+      left: -95px;
+    }
+
+    .box {
+      position: absolute;
+      width: 270px;
+      background-color: #7c293d;
+      height: 140px;
+      top: 170px;
+      left: -145px;
+      z-index: 3;
+      border-radius: 0 0 5px 5px;
+    }
+
+    .box:before {
+      content: "Happy Birthday!";
+      position: absolute;
+      font-size: 30px;
+      font-family: "Brush Script MT", cursive;
+      bottom: 10px;
+      right: 15px;
+    }
+
+    .music {
+      position: absolute;
+      width: 270px;
+      background-color: #200B12;
+      height: 50px;
+      border-radius: 10px 10px 0 0;
+      z-index: 10;
+      top: 120px;
+      left: -145px;
+      transform-origin: left;
+      transition: .5s;
+      cursor: pointer;
+    }
+
+    #music:checked+.music {
+      transform: rotate(-125deg) translateX(-20px) translateY(-30px);
+    }
+
+    .shadow {
+      position: absolute;
+      background-color: rgba(0, 0, 0, .3);
+      width: 350px;
+      height: 30px;
+      border-radius: 50%;
+      top: 300px;
+      left: -185px;
+      transition: .5s;
+      transform-origin: right;
+    }
+
+    #music:checked~.shadow {
+      transform: scaleX(1.4);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="music-box">
+    <input type="checkbox" id="music">
+    <label class="music" for="music"></label>
+    <div class="box-inside">
+      <div class="ballerina">
+        <img src="cat.svg" height="140" width="100">
+      </div>
+      <div class="inner"></div>
+    </div>
+    <div class="box"></div>
+    <div class="shadow"></div>
+  </div>
+
+  <audio id="audio" src="music.mp3"></audio>
+
+  <script>
+    const musicBox = document.getElementById("music");
+    const audio = document.getElementById("audio");
+    let musicEnded = false;
+
+    musicBox.addEventListener("click", () => {
+      if (!musicBox.classList.contains("open")) {
+        // Open the box
+        if (!musicEnded) {
+          audio.play();
+        }
+        musicBox.classList.add("open");
+      } else {
+        // Close the box
+        audio.pause();
+        audio.currentTime = 0; // Reset the music
+        musicBox.classList.remove("open");
+      }
+    });
+  </script>
+</body>
+
+</html>
